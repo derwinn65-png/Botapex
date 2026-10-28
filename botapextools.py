@@ -1011,7 +1011,7 @@ class CPMNuker:
         result = await self._save(uid,d)
         return {"ok":True,"bugs_fixed":bugs} if result.get("ok") else {"ok":False,"message":"FIX_FAILED"}
 
-        async def unlock_all_cars(self, uid):
+    async def unlock_all_cars(self, uid):
         await self.load(uid)
         td = self.get_token_data(uid)
         email = td.get("email") if td else None
@@ -1020,7 +1020,7 @@ class CPMNuker:
             return {"ok": False, "message": "Could not load account data."}
         all_cars = list(range(1, 236))
         d["fcar"] = list(set(d.get("fcar", []) + all_cars))
-        return await self._save(uid, d)
+        return  await self._save(uid, d)
 
     async def unlock_car_by_id(self, uid, car_id):
         await self.load(uid)
@@ -1036,8 +1036,8 @@ class CPMNuker:
         return await self._save(uid, d)
 
     async def create_custom_account(self):
-        import random
-        import string
+        import  random
+        import  string
         
         rand_num = random.randint(1000, 9999)
         email = f"apexcpm_{rand_num}@gmail.com"

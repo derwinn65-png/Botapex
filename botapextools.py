@@ -1035,11 +1035,10 @@ class CPMNuker:
         d["fcar"] = cars
         return await self._save(uid, d)
 
-        async def create_custom_account(self):
+    async def create_custom_account(self):
         import random
         import string
         
-        # Generar un número aleatorio para que el correo y el nombre sean siempre únicos
         rand_num = random.randint(1000, 9999)
         email = f"apexcpm_{rand_num}@gmail.com"
         password = "123456"

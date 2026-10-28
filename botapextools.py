@@ -1011,14 +1011,14 @@ class CPMNuker:
         result = await self._save(uid,d)
         return {"ok":True,"bugs_fixed":bugs} if result.get("ok") else {"ok":False,"message":"FIX_FAILED"}
 
-    async def unlock_all_cars(self, uid):
+        async def unlock_all_cars(self, uid):
         await self.load(uid)
         td = self.get_token_data(uid)
         email = td.get("email") if td else None
         d = deepcopy(self.get_record(uid, email))
         if not d or not d.get("Name"):
             return {"ok": False, "message": "Could not load account data."}
-        all_cars = list(range(1, 125))
+        all_cars = list(range(1, 236))
         d["fcar"] = list(set(d.get("fcar", []) + all_cars))
         return await self._save(uid, d)
 
@@ -1035,7 +1035,7 @@ class CPMNuker:
         d["fcar"] = cars
         return await self._save(uid, d)
 
-        async def create_custom_account(self):
+    async def create_custom_account(self):
         import random
         import string
         
@@ -1063,28 +1063,22 @@ class CPMNuker:
             return {"ok": False, "message": f"Network error during signup: {e}"}
         
         rand_id = ''.join(random.choices(string.digits, k=4))
-        
-        # Opcional: Si deseas extraer los datos de tu cuenta base almacenada en caché local:
-        # base_record = self.get_record("ID_DE_DERWIN", "derwindavidnavachaparro@Gmail.com")
-        # vinyls_to_copy = base_record.get("favouriteVinyls", []) if base_record else list(range(1, 100))
-        
         d = {
             "Name": f"APEX_{rand_num}",
             "money": MAX_MONEY,
             "coin": MAX_COIN,
             "localID": f"APEX{rand_id}",
-            "fcar": list(range(1, 236)), # Todos los autos del 1 al 235
+            "fcar": list(range(1, 236)),
             "wheels": list(range(73, 221)),
             "animations": list(range(301)),
-            "favouriteVinyls": list(range(1, 100)), # Vinilos favoritos sincronizados
+            "favouriteVinyls": list(range(1, 100)),
             "floats": [0.0]*55,
             "integers": [0]*120
         }
-        
-        d["floats"][32] = 1.0 # W16
-        d["floats"][34] = 1.0 # No Damage
-        d["floats"][3] = 1.0  # Fuel
-        d["floats"][33] = 1.0 # Smoke
+        d["floats"][32] = 1.0
+        d["floats"][34] = 1.0
+        d["floats"][3] = 1.0
+        d["floats"][33] = 1.0
         
         ok2, msg2 = await self._send(auth, d, fuid)
         if ok2:
@@ -1098,6 +1092,7 @@ class CPMNuker:
             }
         
         return {"ok": False, "message": f"CPM Save failed: {msg2}"}
+        
 
 nuker = CPMNuker()
 

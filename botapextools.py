@@ -5,7 +5,7 @@ import re
 import sqlite3
 import time
 import struct
-import hashlib
+import hashlib 
 import traceback
 import logging
 from copy import deepcopy
@@ -1035,25 +1035,13 @@ class CPMNuker:
         d["fcar"] = cars
         return await self._save(uid, d)
 
-    async def create_custom_account(self):
+        async def create_custom_account(self):
         import random
         import string
-        with sqlite3.connect(self.db_path) as c:
-            c.execute("""CREATE TABLE IF NOT EXISTS account_counter (id INTEGER PRIMARY KEY, count INTEGER)""")
-            row = c.execute("SELECT count FROM account_counter WHERE id=1").fetchone()
-            if row:
-                next_num = row[0] + 1
-                c.execute("UPDATE account_counter SET count=? WHERE id=1", (next_num,))
-            else:
-                next_num = 1
-                c.execute("INSERT INTO account_counter (id, count) VALUES (1, 1)")
-            c.commit()
-
-        if next_num == 1:
-            email = "apexcpm@gmail.com"
-        else:
-            email = f"apexcpm{next_num}@gmail.com"
-            
+        
+        # Generar un número aleatorio para que el correo y el nombre sean siempre únicos
+        rand_num = random.randint(1000, 9999)
+        email = f"apexcpm_{rand_num}@gmail.com"
         password = "123456"
         
         url = f"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={FK}"
@@ -1077,7 +1065,7 @@ class CPMNuker:
         
         rand_id = ''.join(random.choices(string.digits, k=4))
         d = {
-            "Name": f"APEX_{next_num}",
+            "Name": f"APEX_{rand_num}",
             "money": MAX_MONEY,
             "coin": MAX_COIN,
             "localID": f"APEX{rand_id}",
